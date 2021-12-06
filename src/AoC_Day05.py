@@ -1,7 +1,6 @@
 from lib import *
 
 
-
 class Board:
     def __init__(self):
         self.board = []
@@ -104,8 +103,6 @@ else:
 
 inputAsArray = readLinesFromFile("day05/input.txt")
 
-#print("Solution Part 01:", part01(inputAsArray))
+print("Solution Part 01:", part01(inputAsArray))
 
 print("Solution Part 02:", part02(inputAsArray))
-
-

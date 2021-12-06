@@ -29,7 +29,7 @@ def getNumbersFromString(string):
     return int(re.findall("-?\d+", string)[0])
 
 def getAllNumbersFromString(string):
-    return list(map(int,re.findall("-?\d+", string)))
+    return list(map(int, re.findall("-?\d+", string)))
 
 def doesStringStartWithString(fullString,searchTerm):
     pattern = '\A'+searchTerm
