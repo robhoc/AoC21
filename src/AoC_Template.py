@@ -10,14 +10,15 @@ def part02(input02):
     return "todo"
 
 
-testInput01 = readLinesFromFile("dayX/input_test_01.txt")
+pathDay = "day0X"
+testInput01 = readLinesFromFile("%s/input_test_01.txt" % pathDay)
 testResult01 = part01(testInput01)
 if testResult01 == "bullshit":
     print("Test Part 01 successful")
 else:
     print("Test Part 01 failed, returned", testResult01)
 
-testInput02 = readLinesFromFile("dayX/input_test_02.txt")
+testInput02 = readLinesFromFile("%s/input_test_02.txt" % pathDay)
 testResult02 = part02(testInput01)
 if testResult02 == "bullshit":
     print("Test Part 02 successful")
@@ -25,7 +26,7 @@ else:
     print("Test Part 02 failed, returned", testResult02)
 
 
-inputAsArray = readLinesFromFile("dayX/input.txt")
+inputAsArray = readLinesFromFile("%s/input.txt" % pathDay)
 
 print("Solution Part 01:", part01(inputAsArray))
 
