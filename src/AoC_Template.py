@@ -1,6 +1,23 @@
 from lib import *
 from functools import reduce
 
+class Board:
+    def __init__(self, boardLines):
+        self.boardLines = []
+        self.LINES = len(boardLines)
+        self.COLUMNS = len(boardLines[0])
+        self.visited = []
+        for line in boardLines:
+            self.boardLines.append(list(map(int, list(line))))
+            #self.boardLines.append(list(line))
+            #self.boardLines.append(line)
+
+        def resetVisited(self):
+            self.visited = []
+            for i in range(self.LINES):
+                self.visited.append(self.COLUMNS * [False])
+
+
 def part01(input01):
     print("Todo")
     return "todo"
