@@ -19,46 +19,60 @@ class Board:
 
 
 class Graph:
-    def __init__(self, nodes):
-        self.nodeList = nodes
-        self.paths = []
-        self.paths = { "end": 1 }
+    def __init__(self):
+        self.connections = {}
+        self.visitedLower = []
 
-    def add(self, node):
-        if node[0].isupper():
-            print('Upper Case', node)
-            #return
+    def add(self, edge):
+        first = edge[0]
+        second = edge[1]
 
-        start = node[0]
-        end = node[1]
-
-        if start in self.paths:
-            self.paths[start] = self.paths[start] + self.paths[end]
+        if first in self.connections:
+            self.connections[first].append(second)
         else:
-            self.paths[start] = self.paths[end]
+            self.connections[first] = [second]
+
+        if second in self.connections:
+            self.connections[second].append(first)
+        else:
+            self.connections[second] = [first]
+
+    def solve(self):
+        self.visitedLower = ['start']
+        return self.findNumberOfPaths('start')
+
+    def findNumberOfPaths(self, currentNode):
+        if currentNode == 'end':
+            return 1
+
+        count = 0
+        for node in self.connections[currentNode]:
+            if node in self.visitedLower:
+                continue
+            if not node.isupper():
+                self.visitedLower.append(node)
+            count = count + self.findNumberOfPaths(node)
+            if not node.isupper():
+                self.visitedLower.remove(node)
+        return count
 
 def part01(input01):
-    graph = Graph(list(map(lambda x: x.split('-'), input01)))
+    graph = Graph()
 
-    startAt = 'end'
-    nextNodes = list(filter(lambda x: x[0] == startAt or x[1] == startAt, graph.nodeList))
+    connections = list(map(lambda x: x.split('-'), input01))
+    for edge in connections:
+        graph.add(edge)
 
-    for node in nextNodes:
-        graph.add(node)
-
-    while True:
-        #not a direct#ed graph.
-        lastStarts = list(map(lambda x: x[0], nextNodes))
-        if lastStarts == ['start']:
-            break
-        nextNodes = list(filter(lambda x: x[1] in lastStarts, graph.nodeList))
-        for node in nextNodes:
-            graph.add(node)
-    return graph.paths['start']
+    return graph.solve()
 
 def part02(input02):
-    print("Todo")
-    return "todo"
+    graph = Graph()
+
+    connections = list(map(lambda x: x.split('-'), input02))
+    for edge in connections:
+        graph.add(edge)
+
+    return graph.solve()
 
 
 pathDay = "day12"
@@ -76,9 +90,9 @@ else:
 #else:
 #    print("Test Part 01.2 failed, returned", testResult01)
 
-testInput02 = readLinesFromFile("%s/input_test_03.txt" % pathDay)
+testInput02 = readLinesFromFile("%s/input_test_01.txt" % pathDay)
 testResult02 = part02(testInput02)
-if testResult02 == "bullshit":
+if testResult02 == 36:
     print("Test Part 02 successful")
 else:
     print("Test Part 02 failed, returned", testResult02)
@@ -86,7 +100,7 @@ else:
 
 inputAsArray = readLinesFromFile("%s/input.txt" % pathDay)
 
-#print("Solution Part 01:", part01(inputAsArray))
+print("Solution Part 01:", part01(inputAsArray))
 
 #print("Solution Part 02:", part02(inputAsArray))
 
