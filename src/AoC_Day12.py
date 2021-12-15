@@ -13,13 +13,14 @@ class Board:
             #self.boardLines.append(line)
 
         def resetVisited(self):
-            self.visited = []
+            self.costs = []
             for i in range(self.LINES):
-                self.visited.append(self.COLUMNS * [False])
+                self.costs.append(self.COLUMNS * [False])
 
 
 class Graph:
     def __init__(self):
+        self.visitedSmallTwice = False
         self.connections = {}
         self.visitedLower = []
 
@@ -41,6 +42,10 @@ class Graph:
         self.visitedLower = ['start']
         return self.findNumberOfPaths('start')
 
+    def solve2(self):
+        self.visitedLower = ['start']
+        return self.findNumberOfPaths2('start')
+
     def findNumberOfPaths(self, currentNode):
         if currentNode == 'end':
             return 1
@@ -54,6 +59,36 @@ class Graph:
             count = count + self.findNumberOfPaths(node)
             if not node.isupper():
                 self.visitedLower.remove(node)
+        return count
+
+
+    def findNumberOfPaths2(self, currentNode):
+        if currentNode == 'end':
+            return 1
+
+        count = 0
+        for node in self.connections[currentNode]:
+
+            if node == 'start':
+                continue
+
+            setVisitedTwice = False
+
+            if not node.isupper():
+                if node in self.visitedLower and self.visitedSmallTwice:
+                    continue
+                elif node in self.visitedLower:
+                    self.visitedSmallTwice = True
+                    setVisitedTwice = True
+                self.visitedLower.append(node)
+
+            count = count + self.findNumberOfPaths2(node)
+
+            if not node.isupper():
+                self.visitedLower.remove(node)
+                if setVisitedTwice:
+                    self.visitedSmallTwice = False
+
         return count
 
 def part01(input01):
@@ -72,16 +107,16 @@ def part02(input02):
     for edge in connections:
         graph.add(edge)
 
-    return graph.solve()
+    return graph.solve2()
 
 
 pathDay = "day12"
-testInput01 = readLinesFromFile("%s/input_test_01.txt" % pathDay)
-testResult01 = part01(testInput01)
-if testResult01 == 10:
-    print("Test Part 01 successful")
-else:
-    print("Test Part 01 failed, returned", testResult01)
+#testInput01 = readLinesFromFile("%s/input_test_01.txt" % pathDay)
+#testResult01 = part01(testInput01)
+#if testResult01 == 10:
+#    print("Test Part 01 successful")
+#else:
+#    print("Test Part 01 failed, returned", testResult01)
 
 #testInput01 = readLinesFromFile("%s/input_test_02.txt" % pathDay)
 #testResult01 = part01(testInput01)
@@ -100,8 +135,8 @@ else:
 
 inputAsArray = readLinesFromFile("%s/input.txt" % pathDay)
 
-print("Solution Part 01:", part01(inputAsArray))
+#print("Solution Part 01:", part01(inputAsArray))
 
-#print("Solution Part 02:", part02(inputAsArray))
+print("Solution Part 02:", part02(inputAsArray))
 
 

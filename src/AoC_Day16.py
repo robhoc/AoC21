@@ -34,7 +34,7 @@ def part02(input02):
     return "todo"
 
 
-pathDay = "day0X"
+pathDay = "day16"
 testInput01 = readLinesFromFile("%s/input_test_01.txt" % pathDay)
 testResult01 = part01(testInput01)
 if testResult01 == "bullshit":
