@@ -1,5 +1,6 @@
 from lib import *
 from functools import reduce
+import time
 
 def part01(input01):
     instructionsArray = [i.split(' -> ') for i in input01[2:]]
@@ -158,8 +159,13 @@ else:
 
 inputAsArray = readLinesFromFile("%s/input.txt" % pathDay)
 
+start_time = time.time()
 print("Solution Part 01:", part01(inputAsArray))
+print("--- %s seconds ---" % (time.time() - start_time))
 
+start_time = time.time()
 print("Solution Part 02:", part02(inputAsArray))
+print("--- %s seconds ---" % (time.time() - start_time))
+
 
 
