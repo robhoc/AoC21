@@ -26,7 +26,6 @@ class Board:
 
 
 def part01(input01):
-    print("Todo")
     return "todo"
 
 def part02(input02):
